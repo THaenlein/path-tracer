@@ -134,6 +134,8 @@ In `settings.hpp`, the following macros control the behavior of the path tracer:
 - `--focal <float>`: Focal distance for depth of field (only used if aperture > 0).
 - `--use-anti-aliasing`: Enable multi-sample anti-aliasing if set (default is not set).
 - `--threading <threads>`: Number of threads to use for rendering (default is 1).
+- `--output <directory>`: Output directory for rendered image (default: executable folder + `/out`).
+- `--verbose`: Print detailed scene debug information (camera/light/mesh metadata).
 
 ## Example Usage
 
