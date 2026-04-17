@@ -1,5 +1,7 @@
 #include "TestBoundingBox.hpp"
 
+#include <filesystem>
+
 #include "../src/Types/BoundingBox.hpp"
 
 // Available gtest framework macros
@@ -183,7 +185,8 @@ TEST(BoundingBox, TestSplitZ)
 TEST(BoundingBox, CreateBBoxFromSphere)
 {
 	Assimp::Importer assetImporter;
-	const std::string sceneFilePath("F:/Dokumente/GitHub/ray-tracer/PathTracer/res/test_sphere.dae");
+	const std::string sceneFilePath(
+		(std::filesystem::path(PATH_TRACER_PROJECT_DIR) / "res" / "test_sphere.dae").string());
 	const aiScene* scene = importAndProcess(assetImporter, sceneFilePath);
 	EXPECT_TRUE(scene);
 	EXPECT_TRUE(scene->HasMeshes());
@@ -199,7 +202,8 @@ TEST(BoundingBox, CreateBBoxFromSphere)
 TEST(BoundingBox, CreateBBoxFromMesh)
 {
 	Assimp::Importer assetImporter;
-	const std::string sceneFilePath("F:/Dokumente/GitHub/ray-tracer/PathTracer/res/test_bunny.dae");
+	const std::string sceneFilePath(
+		(std::filesystem::path(PATH_TRACER_PROJECT_DIR) / "res" / "test_bunny.dae").string());
 	const aiScene* scene = importAndProcess(assetImporter, sceneFilePath);
 	EXPECT_TRUE(scene);
 	EXPECT_TRUE(scene->HasMeshes());
