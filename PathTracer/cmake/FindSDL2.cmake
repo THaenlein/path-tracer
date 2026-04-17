@@ -1,40 +1,44 @@
-# - Try to find SDL
-# Once done, this will define
-#
-# SDL2_FOUND - system has SDL
-# SDL2_INCLUDE_DIR - the SDL include directories
-# SDL2_LIBRARIES - link these to use SDL
-FIND_PATH( SDL2_INCLUDE_DIR sdl2/SDL.h
-  /usr/include
-  /usr/local/include
-  /opt/local/include
-  "${CMAKE_SOURCE_DIR}/include"
+include(FindPackageHandleStandardArgs)
+
+find_path(SDL2_INCLUDE_DIR
+  NAMES SDL.h
+  PATH_SUFFIXES SDL2 sdl2
+  PATHS
+    /usr/include
+    /usr/local/include
+    /opt/local/include
+    "${CMAKE_SOURCE_DIR}/include"
 )
-FIND_LIBRARY( SDL2_LIBRARY SDL2
-  /usr/lib64
-  /usr/lib
-  /usr/local/lib
-  /opt/local/lib
-  "${CMAKE_SOURCE_DIR}/lib"
+
+find_library(SDL2_LIBRARY
+  NAMES SDL2
+  PATHS
+    /usr/lib64
+    /usr/lib
+    /usr/local/lib
+    /opt/local/lib
+    "${CMAKE_SOURCE_DIR}/lib"
 )
-FIND_LIBRARY( SDL2_MAIN_LIBRARY SDL2main
-  /usr/lib64
-  /usr/lib
-  /usr/local/lib
-  /opt/local/lib
-  "${CMAKE_SOURCE_DIR}/lib"
+
+find_library(SDL2_MAIN_LIBRARY
+  NAMES SDL2main
+  PATHS
+    /usr/lib64
+    /usr/lib
+    /usr/local/lib
+    /opt/local/lib
+    "${CMAKE_SOURCE_DIR}/lib"
 )
-IF(SDL2_INCLUDE_DIR AND SDL2_LIBRARY AND SDL2_MAIN_LIBRARY)
-  SET( SDL2_FOUND TRUE )
-  SET( SDL2_LIBRARIES ${SDL2_LIBRARY} ${SDL2_MAIN_LIBRARY})
-ENDIF(SDL2_INCLUDE_DIR AND SDL2_LIBRARY AND SDL2_MAIN_LIBRARY)
-IF(SDL2_FOUND)
-  IF(NOT SDL2_FIND_QUIETLY)
-  MESSAGE(STATUS "Found SDL2: ${SDL2_LIBRARY}")
-  MESSAGE(STATUS "Found SDL2: ${SDL2_MAIN_LIBRARY}")
-  ENDIF(NOT SDL2_FIND_QUIETLY)
-ELSE(SDL2_FOUND)
-  IF(SDL2_FIND_REQUIRED)
-  MESSAGE(FATAL_ERROR "Could not find libSDL2")
-  ENDIF(SDL2_FIND_REQUIRED)
-ENDIF(SDL2_FOUND)
+
+set(SDL2_LIBRARIES "${SDL2_LIBRARY}")
+if(SDL2_MAIN_LIBRARY)
+  list(APPEND SDL2_LIBRARIES "${SDL2_MAIN_LIBRARY}")
+endif()
+
+set(SDL2_INCLUDE_DIRS "${SDL2_INCLUDE_DIR}")
+
+find_package_handle_standard_args(SDL2
+  REQUIRED_VARS SDL2_LIBRARY SDL2_INCLUDE_DIR
+)
+
+mark_as_advanced(SDL2_INCLUDE_DIR SDL2_LIBRARY SDL2_MAIN_LIBRARY)

@@ -65,28 +65,43 @@ target_link_libraries(path_tracer PRIVATE assimp SDL2 GTest::GTest)
 
 ## Build Instructions
 
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/THaenlein/path-tracer.git
-    cd path-tracer
-    ```
+From repository root:
 
-2. Create a build directory and run CMake:
-    ```bash
-    mkdir build
-    cd build
-    cmake ..
-    ```
+```bash
+cmake -S PathTracer -B PathTracer/Build
+cmake --build PathTracer/Build --config Release
+```
 
-3. Compile the project:
-    ```bash
-    make
-    ```
+### Run
 
-4. Run the path tracer:
-    ```bash
-    ./PathTracer --input <path-to-collada-scene-file> --width <render-width> --height <render-height> --max-samples <number-of-max-samples> --max-depth <max-ray-depth> --use-anti-aliasing --threading <number-of-threads>
-    ```
+```bash
+./PathTracer/Build/PathTracer --input PathTracer/res/testScene_path_trace_bunny.dae --width 512 --height 512 --max-samples 4 --max-depth 3 --use-anti-aliasing --threading 8
+```
+
+On Windows with Visual Studio generators:
+
+```powershell
+PathTracer\Build\Release\PathTracer.exe --input PathTracer\res\testScene_path_trace_bunny.dae --width 512 --height 512 --max-samples 4 --max-depth 3 --use-anti-aliasing --threading 8
+```
+
+### Tests
+
+```bash
+ctest --test-dir PathTracer/Build --output-on-failure
+```
+
+Run a single test:
+
+```bash
+PathTracer/Build/PathTracer_test --gtest_filter=BoundingBox.TestSplitX
+```
+
+### Linux dependency bootstrap
+
+```bash
+chmod +x PathTracer/install_linux_deps.sh
+./PathTracer/install_linux_deps.sh
+```
 
 ## Configuration
 
